@@ -17,6 +17,15 @@ final public class Graph {
         public Vertex getTo() {
             return to;
         }
+
+        @Override
+        public String toString() {
+            return "Edge{" +
+                    "cost=" + this.getCost() +
+                    "from=" + this.getFrom() +
+                    "to=" + this.getTo() +
+                    '}';
+        }
     }
     final static  private class Vertex{
         private String name;
@@ -41,7 +50,19 @@ final public class Graph {
         public void setName(String name) {
             this.name = name;
         }
+
+        @Override
+        public String toString() {
+            return "Vertex{" +
+                    "name='" + name + '\'' +
+                    ", edges=" + edges +
+                    '}';
+        }
     }
     private HashSet<Edge> edges;
     private HashSet<Vertex> vertices;
+
+    public Graph() {
+    }
+
 }
