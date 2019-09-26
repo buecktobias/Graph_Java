@@ -5,24 +5,23 @@ final public class Graph {
 
     final public static class Edge implements Comparable{
         private int cost;
-        private Vertex from, to;
+        private Vertex vertex1, vertex2;
 
-        public Edge(int cost,Vertex from, Vertex to) {
+        public Edge(int cost,Vertex vertex1, Vertex vertex2) {
             this.cost = cost;
-            this.from = from;
-            this.to = to;
+            this.vertex1 = vertex1;
+            this.vertex2 = vertex2;
         }
 
         public int getCost() {
             return cost;
         }
 
-        public Vertex getFrom() {
-            return this.from;
-        }
-
-        public Vertex getTo() {
-            return to;
+        public List<Vertex> getVertices(){
+            List<Vertex> vertices = new LinkedList<>();
+            vertices.add(this.vertex1);
+            vertices.add(this.vertex2);
+            return vertices;
         }
 
         @Override
@@ -33,7 +32,7 @@ final public class Graph {
 
         @Override
         public String toString() {
-            return  this.getFrom() + "->" + this.getTo() + ", " + this.getCost();
+            return  this.vertex1 + "< - >" + this.vertex2 + ", " + this.getCost();
         }
     }
 
@@ -50,14 +49,6 @@ final public class Graph {
 
         public void addEdge(Edge edge){
             this.edges.add(edge);
-        }
-
-        public Edge getEdgeToVertex(Vertex vertex){
-            return this.edges.stream().filter(edge -> edge.getTo() == vertex).collect(Collectors.toList()).get(0);
-        }
-
-        public List<Vertex> getNeighbours(){
-            return this.edges.stream().map(Edge::getTo).collect(Collectors.toList());
         }
         public List<Edge> getEdges(){
             return this.edges;
@@ -102,12 +93,18 @@ final public class Graph {
         to.addEdge(newEdge);
     }
 
-    public HashSet<Vertex> getVertices(){
-        return (HashSet<Vertex>) this.vertices.values();
+    public void addEdge(Edge edge){
+        for(Vertex vertex: edge.getVertices()){
+            this.getVertex(vertex.getName()).addEdge(edge);
+        }
     }
 
-    private List<Edge> getEdges(){
-        List<Edge> allEdges = new LinkedList<>();
+    public List<Vertex> getVertices(){
+        return new LinkedList<>(this.vertices.values());
+    }
+
+    private HashSet<Edge> getEdges(){
+        HashSet<Edge> allEdges = new HashSet<>();
         for(Vertex vertex:this.vertices.values()){
             allEdges.addAll(vertex.getEdges());
         }

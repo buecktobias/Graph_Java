@@ -8,7 +8,9 @@ public class Main {
 
         graph.addEdge("v1","v2",10);
         graph.addEdge("v1","v3",4);
-
+        graph.addEdge("v2","v3",3);
         System.out.println(graph);
+        Graph spanningTree = PrimDijkstraAlgorithm.primDijkstraAlgorithm(graph,graph.getVertex("v1"));
+        System.out.println(spanningTree);
     }
 }
