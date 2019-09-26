@@ -12,27 +12,26 @@ public class PrimDijkstraAlgorithm {
 
         List<Graph.Vertex> verticesAlreadyAdded = new LinkedList<>();
         verticesAlreadyAdded.add(startVertex);
+
         while(!haveTwoListsTheSameElements(graph.getVertices(), spanningTree.getVertices())){
-            System.out.println(spanningTree.getVertices());
-            System.out.println(graph.getVertices());
-            // TODO remove all edges of possible Edges which do not go to a new Vertex
-
-
             Graph.Edge minimalEdge = allPossibleEdges.poll();
             assert minimalEdge != null;
             Graph.Vertex vertexNotInSpanningTree = getTheVertexOfTheMinimalEdgeWhichIsNotInTheSpanningTree(minimalEdge, verticesAlreadyAdded);
             assert vertexNotInSpanningTree != null;
 
-            spanningTree.addVertex(vertexNotInSpanningTree.getName());
-            verticesAlreadyAdded.add(vertexNotInSpanningTree);
 
+            addVertexToSpanningTree(vertexNotInSpanningTree, spanningTree, verticesAlreadyAdded);
             spanningTree.addEdge(minimalEdge);
-
             addAllEdgesToPossibleEdgesWhichVerticesAreNotAlreadyInTheSpanningTree(vertexNotInSpanningTree, spanningTree, allPossibleEdges);
 
         }
 
         return spanningTree;
+    }
+
+    public static void addVertexToSpanningTree(Graph.Vertex vertex, Graph spanningTree, List<Graph.Vertex> verticesAlreadyAdded){
+        spanningTree.addVertex(vertex.getName());
+        verticesAlreadyAdded.add(vertex);
     }
     public static void addAllEdgesToPossibleEdgesWhichVerticesAreNotAlreadyInTheSpanningTree(Graph.Vertex vertexNotInSpanningTree, Graph spanningTree, PriorityQueue<Graph.Edge> allPossibleEdges){
         for(Graph.Edge edge: vertexNotInSpanningTree.getEdges()){
